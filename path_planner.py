@@ -146,7 +146,7 @@ class PathPlanner(object):
 
     def a_star_weight(self, start_position, goal_position):
         """
-        Plans a path using A*.
+        Plans a path using A* weight.
 
         :param start_position: position where the planning stars as a tuple (x, y).
         :type start_position: tuple.
@@ -155,10 +155,6 @@ class PathPlanner(object):
         :return: the path as a sequence of positions and the path cost.
         :rtype: list of tuples and float.
         """
-        # Todo: implement the A* algorithm
-        # The first return is the path as sequence of tuples (as returned by the method construct_path())
-        # The second return is the cost of the path
-
         w = 5
 
         self.node_grid.reset()
@@ -186,7 +182,7 @@ class PathPlanner(object):
 
     def a_star_dynamic_weight(self, start_position, goal_position):
         """
-        Plans a path using A*.
+        Plans a path using A* Dynamic Weight.
 
         :param start_position: position where the planning stars as a tuple (x, y).
         :type start_position: tuple.
@@ -195,11 +191,6 @@ class PathPlanner(object):
         :return: the path as a sequence of positions and the path cost.
         :rtype: list of tuples and float.
         """
-        # Todo: implement the A* algorithm
-        # The first return is the path as sequence of tuples (as returned by the method construct_path())
-        # The second return is the cost of the path
-
-
 
         self.node_grid.reset()
         pq = []
@@ -236,9 +227,9 @@ class PathPlanner(object):
                         node_suc.parent = node
                         heapq.heappush(pq, (node_suc.f, node_suc))
 
-    def a_star_pxWU(self, start_position, goal_position):
+    def a_star_pwXU(self, start_position, goal_position):
         """
-        Plans a path using A*.
+        Plans a path using A* pwXU.
 
         :param start_position: position where the planning stars as a tuple (x, y).
         :type start_position: tuple.
@@ -247,9 +238,6 @@ class PathPlanner(object):
         :return: the path as a sequence of positions and the path cost.
         :rtype: list of tuples and float.
         """
-        # Todo: implement the A* algorithm
-        # The first return is the path as sequence of tuples (as returned by the method construct_path())
-        # The second return is the cost of the path
 
         w = 5
 
@@ -288,9 +276,9 @@ class PathPlanner(object):
                         node_suc.parent = node
                         heapq.heappush(pq, (node_suc.f, node_suc))
 
-    def a_star_pxWD(self, start_position, goal_position):
+    def a_star_pwXD(self, start_position, goal_position):
         """
-        Plans a path using A*.
+        Plans a path using A* pwXD.
 
         :param start_position: position where the planning stars as a tuple (x, y).
         :type start_position: tuple.
@@ -299,9 +287,6 @@ class PathPlanner(object):
         :return: the path as a sequence of positions and the path cost.
         :rtype: list of tuples and float.
         """
-        # Todo: implement the A* algorithm
-        # The first return is the path as sequence of tuples (as returned by the method construct_path())
-        # The second return is the cost of the path
 
         w = 5
 
@@ -343,39 +328,17 @@ class PathPlanner(object):
 
     def line_of_sight(self, a, b, costmap):
         """
-        x0 = a.i
-        y0 = a.j
-        x1 = b.i
-        y1 = b.j
+        Verify if exist line of sight between 'a' and 'b'.
 
-        dx = x1 - x0
-        dy = y1 - y0
-
-        if dx >= 0:
-            i = 1
-        else:
-            i = -1
-
-        if dy >= 0:
-            j = 1
-        else:
-            j = -1
-
-        if abs(dx) == 2:
-            if costmap.is_occupied(x0 + i, y0):
-                if abs(dy) == 2:
-                    return not (costmap.is_occupied(x0 + i, y1) and costmap.is_occupied(x0 + i, y0 + j))
-                elif abs(dy) == 1:
-                    return not (costmap.is_occupied(x0 + i, y0 + j))
-                else:
-                    return not (costmap.is_occupied(x0 + i, y0 + j) and costmap.is_occupied(x0 + i, y0 - j))
-
-        if abs(dy) == 2:
-            if costmap.is_occupied(x0, y0 + j):
-                if abs(dx) == 1:
-                    return not (costmap.is_occupied(x0 + i, y0 + j))
-                else:
-                    return not (costmap.is_occupied(x0 - i, y0 + j) and costmap.is_occupied(x0 + i, y0 + j))
+        :param a: position of the first Node as a tuple (i, j).
+        :type start_position: tuple.
+        :param goal_position: position of the second Node as a tuple (i, j).
+        :type goal_position: tuple.
+        :param costmap: represents a cost map where higher values indicates terrain
+                        which are harder to transverse
+        :type: CostMap
+        :return: boolean of line of sight.
+        :rtype: boolean.
         """
         x0 = a.i
         y0 = a.j
@@ -429,20 +392,20 @@ class PathPlanner(object):
 
         return True
 
-    def theta_star(self, start_position, goal_position,costmap):
+    def theta_star(self, start_position, goal_position, costmap):
         """
-        Plans a path using A*.
+        Plans a path using T*.
 
         :param start_position: position where the planning stars as a tuple (x, y).
         :type start_position: tuple.
         :param goal_position: goal position of the planning as a tuple (x, y).
         :type goal_position: tuple.
+        :param costmap: represents a cost map where higher values indicates terrain
+                        which are harder to transverse
+        :type: CostMap
         :return: the path as a sequence of positions and the path cost.
         :rtype: list of tuples and float.
         """
-        # Todo: implement the Theta* algorithm
-        # The first return is the path as sequence of tuples (as returned by the method construct_path())
-        # The second return is the cost of the path
         self.node_grid.reset()
         pq = []
         node = self.node_grid.get_node(start_position[0], start_position[1])
@@ -456,17 +419,9 @@ class PathPlanner(object):
             node.closed = True
             if node == goal_node:
                 return self.construct_path(goal_node), goal_node.f
-            #parent_successors = []
-            #if node.parent != None:
-            #    parent_successors = self.node_grid.get_successors(node.parent.i, node.parent.j)
             for successor in self.node_grid.get_successors(node.i, node.j):
                 node_suc = self.node_grid.get_node(successor[0], successor[1])
                 if not node_suc.closed:
-                    #print((node_suc.f, node_suc) in pq)
-                    #if not (node_suc.f, node_suc) in pq:
-                    #    node_suc.f = inf
-                    #    node_suc.parent = None
-                    # se o node_suc estiver na linha de visao do node.parent
                     h = node_suc.distance_to(goal_position[0], goal_position[1])
                     #update_vertex
                     if node.parent != None and self.line_of_sight(node.parent, node_suc, costmap):
@@ -476,10 +431,7 @@ class PathPlanner(object):
                             node_suc.g = node.parent.g + edge_cost
                             node_suc.f = cost
                             node_suc.parent = node.parent
-                            #if (node_suc.f, node_suc) in pq:
-                            #    pq.remove(node_suc)
                             heapq.heappush(pq, (node_suc.f, node_suc))
-
                     else:
                         edge_cost = self.cost_map.get_edge_cost((node.i, node.j), (node_suc.i, node_suc.j))
                         cost = node.g + edge_cost + h

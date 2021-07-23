@@ -7,23 +7,23 @@ import random
 import time
 
 # Select planning algorithm
-algorithm = 'dijkstra'
-algorithm = 'greedy'
-algorithm = 'a_star'
-algorithm = 'a_star_weight'
-algorithm = 'a_star_dynamic_weight'
-algorithm = 'a_star_pxWU'
-algorithm = 'a_star_pxWD'
-#algorithm = 'theta_star'
+#algorithm = 'dijkstra'
+#algorithm = 'greedy'
+#algorithm = 'a_star'
+#algorithm = 'a_star_weight'
+#algorithm = 'a_star_dynamic_weight'
+#algorithm = 'a_star_pwXU'
+#algorithm = 'a_star_pwXD'
+algorithm = 'theta_star'
 
 # Number of path plannings used in the Monte Carlo analysis
-#num_iterations = 1
+num_iterations = 1
 # num_iterations = 10
-num_iterations = 100  # Monte Carlo
+#num_iterations = 100  # Monte Carlo
 
 # Plot options
-save_fig = False  # if the figure will be used to the hard disk
-show_fig = False  # if the figure will be shown in the screen
+save_fig = True  # if the figure will be used to the hard disk
+show_fig = True  # if the figure will be shown in the screen
 fig_format = 'eps'
 # Recommended figure formats: .eps for Latex/Linux, .svg for MS Office, and .png for easy visualization in Windows.
 # The quality of .eps and .svg is far superior since these are vector graphics formats.
@@ -62,10 +62,10 @@ def plot_path(cost_map, start, goal, path, filename, save_fig=True, show_fig=Tru
         plt.title('A Star Weight')
     elif 'a_star_dynamic_weight' in filename:
         plt.title('A Star Dynamic Weight')
-    elif 'a_star_pxWU' in filename:
-        plt.title('A Star pxWU')
-    elif 'a_star_pxWD' in filename:
-        plt.title('A Star pxWD')
+    elif 'a_star_pwXU' in filename:
+        plt.title('A Star pwXU')
+    elif 'a_star_pwXD' in filename:
+        plt.title('A Star pwXD')
     elif 'theta_star' in filename:
         plt.title('Theta Star')
     else:
@@ -106,7 +106,7 @@ for i in range(num_iterations):
         start_position = (random.randint(0, HEIGHT - 1), random.randint(0, WIDTH - 1))
         goal_position = (random.randint(0, HEIGHT - 1), random.randint(0, WIDTH - 1))
 
-        #goal_position = (40, 100)
+        goal_position = (40, 100)
 
         # If the start or goal positions happen to be within an obstacle, we discard them and
         # try new samples
@@ -126,10 +126,10 @@ for i in range(num_iterations):
         path, cost = path_planner.a_star_weight(start_position, goal_position)
     elif algorithm == 'a_star_dynamic_weight':
         path, cost = path_planner.a_star_dynamic_weight(start_position, goal_position)
-    elif algorithm == 'a_star_pxWU':
-        path, cost = path_planner.a_star_pxWU(start_position, goal_position)
-    elif algorithm == 'a_star_pxWD':
-        path, cost = path_planner.a_star_pxWD(start_position, goal_position)
+    elif algorithm == 'a_star_pwXU':
+        path, cost = path_planner.a_star_pwXU(start_position, goal_position)
+    elif algorithm == 'a_star_pwXD':
+        path, cost = path_planner.a_star_pwXD(start_position, goal_position)
     elif algorithm == 'theta_star':
         path, cost = path_planner.theta_star(start_position, goal_position,cost_map)
     else:
